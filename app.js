@@ -130,16 +130,18 @@ app.get('/api/get_customers', (req, res) => {
   });
 
 //Gets all sales
-app.get('/api/get_sales', (req, res) => {
-    const sql = 'SELECT * FROM sales'; // Query to get customers
-    db.query(sql, (err, results) => {
+app.post('/api/get_sales', (req, res) => {
+    const start_date = req.body.start_date;
+    const end_date = req.body.end_date;
+    console.log(start_date, end_date);
+    const sql = 'SELECT * FROM sales where sale_date <= ? AND sale_date >= ?'; // Query to get customers
+    db.query(sql, [end_date,start_date], (err, results) => {
       if (err) {
         //Lets me know what went wrong
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'An error occurred' });
         return;
       }
-  
       res.json(results);
     });
   });
