@@ -2,8 +2,8 @@ DROP DATABASE IF EXISTS bespoked_bikes;
 CREATE DATABASE IF NOT EXISTS bespoked_bikes;
 USE bespoked_bikes;
 
-DROP TABLE IF EXISTS products;
-CREATE TABLE products (
+DROP TABLE IF EXISTS product;
+CREATE TABLE product (
   product_id bigint NOT NULL AUTO_INCREMENT,
   name char(20) NOT NULL,
   manufacturer char(20) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE products (
   unique(name, manufacturer, style)
 );
 
-INSERT INTO products VALUES
+INSERT INTO product VALUES
 (1, "Velocity Viper 500", "SwiftCycles", "Mountain Bike", 450, 650, 25, 10),
     (2, "Speedster Pro", "BikeMaster", "Road Bike", 550, 750, 30, 12),
     (3, "Urban Commuter", "CityRide Bikes", "Hybrid Bike", 380, 550, 20, 8),
@@ -125,7 +125,7 @@ CREATE TABLE sales (
   product_price decimal (9,2) NOT NULL,
   comm_pct decimal (5,2) NOT NULL,
   sales_date date NOT NULL,
-  CONSTRAINT fk1 FOREIGN KEY (product_id) REFERENCES products (product_id),
+  CONSTRAINT fk1 FOREIGN KEY (product_id) REFERENCES product (product_id),
   CONSTRAINT fk2 FOREIGN KEY (sp_id) REFERENCES salesperson (sp_id),
   CONSTRAINT fk3 FOREIGN KEY (c_id) REFERENCES customer (c_id)
 );
@@ -213,7 +213,7 @@ CREATE TABLE discount (
   start_date date NOT NULL,
   end_date date NOT NULL,
   d_pct decimal(5,2),
-  CONSTRAINT fk4 FOREIGN KEY (product_id) REFERENCES products (product_id)
+  CONSTRAINT fk4 FOREIGN KEY (product_id) REFERENCES product (product_id)
 );
 
 INSERT into discount VALUES 
