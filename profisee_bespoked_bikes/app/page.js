@@ -9,8 +9,8 @@ export default function Home() {
         <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/update_product"> Update Product </Link>
         <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/get_customers"> Get Customers </Link>
         <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/get_sales"> Get Sales </Link>
+        <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/add_sale"> Add a Sale </Link>
         <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/get_comm_report"> Get Commisions </Link>
-        <Link className = "w-fit p-4 bg-cyan-200 hover:bg-cyan-400 m-4 text-center align-middle" href = "/create_sale"> Create a Sale </Link>
     </main>
   )
 }

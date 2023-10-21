@@ -210,6 +210,23 @@ app.post('/api/get_product', (req, res) => {
     });
   });
 
+  // POST to get specific customer
+app.post('/api/get_customer', (req, res) => {
+    const receivedData = req.body; // Extract data from the request body
+    console.log(receivedData);
+    const c_id = req.body.c_id;
+    const query = 'SELECT * from customer WHERE c_id = ?';
+    db.query(query, [c_id], (error, results) => {
+    if (error) {
+        console.error('Error getting record:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    } else {
+        console.log('Record fetched');
+        res.json(results);
+    }
+    });
+  });
+
 // POST to update salesperson record
 app.post('/api/update_salesperson', (req, res) => {
     const receivedData = req.body; // Extract data from the request body

@@ -26,7 +26,7 @@ export default function Home() {
         console.error('Error fetching data:', error);
       });
   }, []);
-  let header_names = ["id","name", "manufacturer", "style", "purc.", "sale", "qty", "comm."];
+  let header_names = ["id","name", "manufacturer", "style", "purc.", "sale", "qty", "comm. (%)"];
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-black">
       <Table data = {data} header_names = {header_names} title = "Product List" />

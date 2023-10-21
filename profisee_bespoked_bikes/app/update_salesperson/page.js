@@ -1,5 +1,7 @@
 "use client";
+import checkDate from '@/helper/checkDate';
 import { useEffect, useState } from 'react';
+import UpdateEntity from '@/components/UpdateEntity';
 export default function Home() {
   const [data, setData] = useState(null);
   const [sp_id_list, setSp_id_list] = useState([])
@@ -63,20 +65,74 @@ export default function Home() {
   const handleChange = (e) => {
     console.log(e)
     const { name, value } = e.target;
-    if(name == "sp_id"){
+    setUpdate_ready("UPDATE");
+    if(name != "termination_date" && value.length < 1){
+      setUpdate_ready("Only end can have no value");
+    }
+    else if(name == "sp_id"){
       if(sp_id_list.some((item) => item == value)){
         setSp_id(value);
       } else {
         setUpdate_ready("Put a valid sp_id");
       }
+    } else if (name == "state_code"){
+      if(value.length != 2){
+        setUpdate_ready("State code must be 2 letters");
+      }
+    } else if (name == "zip_code"){
+      if(value.length != 5){
+        setUpdate_ready("Put in a valid zip code");
+      }
+    } else if (name == "phone_num"){
+      if(value.length != 10){
+        setUpdate_ready("Put in a valid phone number");
+      }
+    } else if (name == "start_date"){
+      if(!checkDate("")){
+        setUpdate_ready("Put start date in format yyyy-mm-dd");
+      }
+    } else if (name == "termination_date"){
+      if(value != null && value != "" && !checkDate(value)){
+        setUpdate_ready("Put end date in format yyyy-mm-dd");
+      }
     }
-
-    
+    checkData(name);
     setData({ ...data, [name]: value });
   };
+
+  const checkData = (updated_col) => {
+    if(Object.keys(data).some((elem) => ( elem != "termination_date" && elem != updated_col && data[elem].length < 1))){
+      setUpdate_ready("Only end can have no value");
+      return "Only end can have no value";
+    }
+    else if(sp_id_list.every((item) => data["sp_id"] != item) && updated_col != "sp_id"){
+        setUpdate_ready("Put a valid sp_id");
+        return "Put a valid sp_id";
+    } else if (data["state_code"].length != 2 && updated_col != "state_code"){
+        setUpdate_ready("State code must be 2 letters");
+        return "State code must be 2 letters";
+    } else if (data["zip_code"].toString().length != 5 && updated_col != "zip_code"){
+        setUpdate_ready("Put in a valid zip code");
+        return "Put in a valid zip code";
+    } else if (data["phone_num"].toString().length != 10 && updated_col != "phone_num"){
+        setUpdate_ready("Put in a valid phone number");
+        return "Put in a valid phone number";
+    } else if (!checkDate(data["start_date"]) && updated_col != "start_date"){
+        setUpdate_ready("Put start date in format yyyy-mm-dd");
+        return "Put start date in format yyyy-mm-dd"
+    } else if (data["termination-date"] != null && data["termination-date"] != "" && !checkDate(data["termination-date"]) && updated_col != "termination_date"){
+        setUpdate_ready("Put end date in format yyyy-mm-dd");
+        return "Put end date in format yyyy-mm-dd";
+    }
+    return "UPDATE"
+  }
   const update = async () => {
-    if(update_ready != "UPDATE"){
+    if(checkData() != "UPDATE"){
       return;
+    }
+    let temp = data;
+    if(temp["termination_date"] == ""){
+      temp["termination_date"] = null;
     }
     try {
       const response = await fetch('http://localhost:3000/api/update_salesperson', {
@@ -84,20 +140,21 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(temp),
       });
       console.log(response);
       if (response.ok) {
         console.log('POST request successful');
+        setUpdate_ready("Update succeeded!");
       } else {
         console.error('POST request failed');
+        setUpdate_ready("Update failed :(")
         // Handle error, e.g., show an error message
       }
     } catch (error) {
       console.error('Error:', error);
     }
   }
-console.log(data);
   if (data == null){
     return 
     (
@@ -106,29 +163,22 @@ console.log(data);
       </main>
     )
   } else{
+    let input_names = {
+      "sp_id": "id",
+      "first_name": "first",
+      "last_name": "last",
+      "street_address": "street",
+      "city": "city",
+      "state_code": "state",
+      "zip_code": "zip",
+      "phone_num": "phone",
+      "start_date": "start",
+      "termination_date": "end",
+      "manager": "manager"
+    }
     return(
-    <main className="py-8 min-h-screen   bg-black">
-      <div className = "text-white text-6xl font-bold m-4 text-center">
-           Update Salesperson 
-        </div>
-       <div className = "grid grid-cols-3 text-xl justify-center h-fit mx-80">
-       {Object.keys(data).map((key) => (
-        <div key={key} className = "bg-orange-400 w-80 m-4">
-          <label className ="text-white px-2">
-          {key}
-          </label> <br></br>
-          <input type="text" className="text-slate-700 px-4 w-80" name={key} value={data[key]} onChange={handleChange} />
-        </div>
-        ))}
-        <button className = "text-white bg-red-700 m-4" onClick={update}> {update_ready}</button>
-        </div>
-        
-        
-        
-        
-        
-        
-    </main>
+      <UpdateEntity title = "Update Product" update = {update} handleChange={handleChange}
+      data = {data} update_ready = {update_ready} input_names = {input_names}/>
     )
   }
 }

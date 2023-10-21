@@ -11,7 +11,7 @@ CREATE TABLE product (
   purchase_price decimal(9,2) NOT NULL,
   sale_price decimal(9,2) NOT NULL,
   qty_on_hand decimal (9,0) NOT NULL,
-  comm_pct decimal (5,2) NOT NULL,
+  comm_pct decimal (4,2) NOT NULL,
   primary key(product_id),
   unique(name, manufacturer, style)
 );
@@ -123,7 +123,7 @@ CREATE TABLE sales (
   sp_id bigint NOT NULL,
   c_id bigint NOT NULL,
   product_price decimal (9,2) NOT NULL,
-  comm_pct decimal (5,2) NOT NULL,
+  comm_pct decimal (4,2) NOT NULL,
   sale_date date NOT NULL,
   CONSTRAINT fk1 FOREIGN KEY (product_id) REFERENCES product (product_id),
   CONSTRAINT fk2 FOREIGN KEY (sp_id) REFERENCES salesperson (sp_id),
@@ -212,7 +212,7 @@ CREATE TABLE discount (
   product_id bigint NOT NULL,
   start_date date NOT NULL,
   end_date date NOT NULL,
-  d_pct decimal(5,2),
+  d_pct decimal(4,2),
   CONSTRAINT fk4 FOREIGN KEY (product_id) REFERENCES product (product_id)
 );
 
