@@ -5,28 +5,24 @@ import CustomerTable from '@/components/CustomerTable.js';
 import { useEffect, useState } from 'react';
 export default function Home() {
   const [data, setData] = useState(null);
-  const [sp_id_list, setSp_id_list] = useState([])
-  const [sp_id, setSp_id] = useState(1);
+  const [product_id_list, setProduct_id_list] = useState([])
+  const [product_id, setProduct_id] = useState(1);
   useEffect(() => {
     // Define a function to handle the POST request
-    const get_salesperson = async () => {
+    const get_product = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/get_salesperson', {
+        const response = await fetch('http://localhost:3000/api/get_product', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({"sp_id": sp_id}),
+          body: JSON.stringify({"product_id": product_id}),
         });
         console.log(response);
         if (response.ok) {
           console.log('POST request successful');
-          let sp_data = await response.json();
-          sp_data[0].start_date = sp_data[0].start_date.split("T")[0];
-          if(sp_data[0].termination_date != null){
-            sp_data[0].termination_date = sp_data[0].termination_date.split("T")[0];
-          }
-          setData(sp_data[0]);
+          let product_data = await response.json();
+          setData(product_data[0]);
         } else {
           console.error('POST request failed');
           // Handle error, e.g., show an error message
@@ -35,13 +31,13 @@ export default function Home() {
         console.error('Error:', error);
       }
     };
-    get_salesperson();
+    get_product();
 
-  }, [sp_id]); 
+  }, [product_id]); 
 
   useEffect(() => {
     // Make the GET request to your Express API
-    fetch('http://localhost:3000/api/get_salespeople_id') // Use the appropriate API endpoint
+    fetch('http://localhost:3000/api/get_products_ids') // Use the appropriate API endpoint
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -52,9 +48,9 @@ export default function Home() {
       .then((result) => {
         let temp_arr = result;
         for(let i = 0; i < temp_arr.length; i++){
-          temp_arr[i] = temp_arr[i].sp_id;
+          temp_arr[i] = temp_arr[i].product_id;
         }
-        setSp_id_list(temp_arr);
+        setProduct_id_list(temp_arr);
         console.log(temp_arr);
       })
       .catch((error) => {
@@ -65,14 +61,14 @@ export default function Home() {
   const handleChange = (e) => {
     console.log(e)
     const { name, value } = e.target;
-    if(name == "sp_id"){
-      setSp_id(value);
+    if(name == "product_id" && product_id_list.some((element) => element == value)){
+      setProduct_id(value);
     }
     setData({ ...data, [name]: value });
   };
   const update = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/update_salesperson', {
+      const response = await fetch('http://localhost:3000/api/update_product', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -55,9 +55,39 @@ app.get('/api/get_salespeople', (req, res) => {
     });
   });
 
+//Gets all salespeople_ids
+app.get('/api/get_salespeople_id', (req, res) => {
+    const sql = 'SELECT sp_id FROM salesperson'; // Query to get salespeople
+    db.query(sql, (err, results) => {
+      if (err) {
+        //Lets me know what went wrong
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+  
+      res.json(results);
+    });
+  });
+
 //Gets all products
 app.get('/api/get_products', (req, res) => {
     const sql = 'SELECT * FROM product'; // Query to get products
+    db.query(sql, (err, results) => {
+      if (err) {
+        //Lets me know what went wrong
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+  
+      res.json(results);
+    });
+  });
+
+//Gets all products ods
+app.get('/api/get_products_ids', (req, res) => {
+    const sql = 'SELECT product_id FROM product'; // Query to get products
     db.query(sql, (err, results) => {
       if (err) {
         //Lets me know what went wrong
@@ -139,6 +169,23 @@ app.post('/api/get_salesperson', (req, res) => {
     const sp_id = req.body.sp_id;
     const query = 'SELECT * from salesperson WHERE sp_id = ?';
     db.query(query, [sp_id], (error, results) => {
+    if (error) {
+        console.error('Error getting record:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    } else {
+        console.log('Record fetched');
+        res.json(results);
+    }
+    });
+  });
+
+// POST to get specific product
+app.post('/api/get_product', (req, res) => {
+    const receivedData = req.body; // Extract data from the request body
+    console.log(receivedData);
+    const product_id = req.body.product_id;
+    const query = 'SELECT * from product WHERE product_id = ?';
+    db.query(query, [product_id], (error, results) => {
     if (error) {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });

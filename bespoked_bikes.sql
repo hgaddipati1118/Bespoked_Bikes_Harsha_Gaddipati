@@ -17,7 +17,7 @@ CREATE TABLE product (
 );
 
 INSERT INTO product VALUES
-(1, "Velocity Viper 500", "SwiftCycles", "Mountain Bike", 450, 650, 25, 10),
+("1", "Velocity Viper 500", "SwiftCycles", "Mountain Bike", 450, 650, 25, 10),
     (2, "Speedster Pro", "BikeMaster", "Road Bike", 550, 750, 30, 12),
     (3, "Urban Commuter", "CityRide Bikes", "Hybrid Bike", 380, 550, 20, 8),
     (4, "Xtreme BMX", "XtremeRides", "BMX Bike", 300, 450, 15, 9),

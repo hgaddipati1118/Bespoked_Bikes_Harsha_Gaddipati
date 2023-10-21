@@ -7,7 +7,7 @@ export default function Home() {
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_salespeople"> Get Salespeople </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200" href = "/update_salesperson"> Update Salesperson </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_products"> Get Products </Link>
-        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_salespeople"> Update Product </Link>
+        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/update_product"> Update Product </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_customers"> Get Customers </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_sales"> Get Sales </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_salespeople"> Get Commisions </Link>
