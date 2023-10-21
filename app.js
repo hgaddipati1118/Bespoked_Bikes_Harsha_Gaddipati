@@ -91,6 +91,38 @@ app.get('/api/get_sales', (req, res) => {
     });
   });
 
+// POST to get current "real" price of product at date
+app.post('/api/get_product_price', (req, res) => {
+    const product_id = req.body.product_id;
+    const sale_date = req.body.sale_date;
+    console.log(product_id, sale_date);
+    const sql_1 = `SELECT d_pct FROM discount WHERE product_id = ? AND 
+    start_date <= ? AND end_date >= ?`; // Query to get discounts valid at time
+    const sql_2 = `SELECT sale_price from product WHERE product_id = ?`
+    db.query(sql_1, [product_id, sale_date, sale_date], (err, results) => {
+      if (err) {
+        //Lets me know what went wrong
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+      let discount = 1.0; //No discount intially
+      for(let i = 0; i < results.length; i++){
+        discount *= (100 - results[i].d_pct)/100 //For each discount adjust multiplier
+      }
+      db.query(sql_2, [product_id, sale_date, sale_date], (err, results) => {
+        if (err) {
+          //Lets me know what went wrong
+          console.error('Error executing SQL query:', err);
+          res.status(500).json({ error: 'An error occurred' });
+          return;
+        }
+        results[0].sale_price *= discount; //Change price by discount
+        res.json(results);
+      });
+    });
+  });
+
 
 // POST to update salesperson record
 app.post('/api/update_salesperson', (req, res) => {
@@ -171,6 +203,21 @@ app.post('/api/update_product', (req, res) => {
     } else {
         console.log('Record updated successfully.');
         res.json({result: "updated successfully!"});
+    }
+    });
+  });
+
+  //POST to insert sale
+  app.post('/api/create_sale', (req, res) => {
+    const receivedData = req.body; // Extract data from the request body
+    const query = 'INSERT INTO sales SET ?';
+    db.query(query, [receivedData], (error, results) => {
+    if (error) {
+        console.error('Error creating record:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    } else {
+        console.log('Record created successfully.');
+        res.json({result: "Created successfully!"});
     }
     });
   });

@@ -124,7 +124,7 @@ CREATE TABLE sales (
   c_id bigint NOT NULL,
   product_price decimal (9,2) NOT NULL,
   comm_pct decimal (5,2) NOT NULL,
-  sales_date date NOT NULL,
+  sale_date date NOT NULL,
   CONSTRAINT fk1 FOREIGN KEY (product_id) REFERENCES product (product_id),
   CONSTRAINT fk2 FOREIGN KEY (sp_id) REFERENCES salesperson (sp_id),
   CONSTRAINT fk3 FOREIGN KEY (c_id) REFERENCES customer (c_id)
