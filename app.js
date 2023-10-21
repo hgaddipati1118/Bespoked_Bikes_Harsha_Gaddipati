@@ -6,6 +6,15 @@ const mysql = require('mysql');
  
 const app = express();
 app.use(express.json());
+
+const cors = require('cors'); // Import the cors package
+app.use(
+    cors({
+      origin: 'http://localhost:3001', // Allow requests from this origin
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    })
+);
+
 const PORT = 3000;
 const sql_password = process.env.SQL_PASSWORD ;
 // Create a connection to the database
@@ -48,7 +57,7 @@ app.get('/api/get_salespeople', (req, res) => {
 
 //Gets all products
 app.get('/api/get_products', (req, res) => {
-    const sql = 'SELECT * FROM products'; // Query to get products
+    const sql = 'SELECT * FROM product'; // Query to get products
     db.query(sql, (err, results) => {
       if (err) {
         //Lets me know what went wrong
@@ -123,6 +132,22 @@ app.post('/api/get_product_price', (req, res) => {
     });
   });
 
+// POST to get specific salesperson
+app.post('/api/get_salesperson', (req, res) => {
+    const receivedData = req.body; // Extract data from the request body
+    console.log(receivedData);
+    const sp_id = req.body.sp_id;
+    const query = 'SELECT * from salesperson WHERE sp_id = ?';
+    db.query(query, [sp_id], (error, results) => {
+    if (error) {
+        console.error('Error getting record:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    } else {
+        console.log('Record fetched');
+        res.json(results);
+    }
+    });
+  });
 
 // POST to update salesperson record
 app.post('/api/update_salesperson', (req, res) => {
