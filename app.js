@@ -28,7 +28,7 @@ const db = mysql.createConnection({
 // open the MySQL connection
 db.connect(error => {
     if (error){
-        console.log("A error has been occurred "
+        console.log("A error has occurred "
             + "while connecting to database.");        
         throw error;
     }
@@ -133,7 +133,6 @@ app.get('/api/get_customers', (req, res) => {
 app.post('/api/get_sales', (req, res) => {
     const start_date = req.body.start_date;
     const end_date = req.body.end_date;
-    console.log(start_date, end_date);
     const sql = 'SELECT * FROM sales where sale_date <= ? AND sale_date >= ?'; // Query to get customers
     db.query(sql, [end_date,start_date], (err, results) => {
       if (err) {
@@ -150,7 +149,6 @@ app.post('/api/get_sales', (req, res) => {
 app.post('/api/get_product_price', (req, res) => {
     const product_id = req.body.product_id;
     const sale_date = req.body.sale_date;
-    console.log(product_id, sale_date);
     const sql_1 = `SELECT d_pct FROM discount WHERE product_id = ? AND 
     start_date <= ? AND end_date >= ?`; // Query to get discounts valid at time
     const sql_2 = `SELECT sale_price from product WHERE product_id = ?`
@@ -181,7 +179,6 @@ app.post('/api/get_product_price', (req, res) => {
 // POST to get specific salesperson
 app.post('/api/get_salesperson', (req, res) => {
     const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const sp_id = req.body.sp_id;
     const query = 'SELECT * from salesperson WHERE sp_id = ?';
     db.query(query, [sp_id], (error, results) => {
@@ -189,7 +186,6 @@ app.post('/api/get_salesperson', (req, res) => {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record fetched');
         res.json(results);
     }
     });
@@ -197,8 +193,6 @@ app.post('/api/get_salesperson', (req, res) => {
 
 // POST to get specific product
 app.post('/api/get_product', (req, res) => {
-    const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const product_id = req.body.product_id;
     const query = 'SELECT * from product WHERE product_id = ?';
     db.query(query, [product_id], (error, results) => {
@@ -206,7 +200,6 @@ app.post('/api/get_product', (req, res) => {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record fetched');
         res.json(results);
     }
     });
@@ -214,8 +207,6 @@ app.post('/api/get_product', (req, res) => {
 
   // POST to get specific customer
 app.post('/api/get_customer', (req, res) => {
-    const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const c_id = req.body.c_id;
     const query = 'SELECT * from customer WHERE c_id = ?';
     db.query(query, [c_id], (error, results) => {
@@ -223,7 +214,6 @@ app.post('/api/get_customer', (req, res) => {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record fetched');
         res.json(results);
     }
     });
@@ -232,7 +222,6 @@ app.post('/api/get_customer', (req, res) => {
 // POST to update salesperson record
 app.post('/api/update_salesperson', (req, res) => {
     const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const sp_id = req.body.sp_id;
     const query = 'UPDATE salesperson SET ? WHERE sp_id = ?';
     let updatedData = {};
@@ -251,7 +240,6 @@ app.post('/api/update_salesperson', (req, res) => {
         console.error('Error updating record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record updated successfully.');
         res.json({result: "updated successfully!"});
     }
     });
@@ -260,7 +248,6 @@ app.post('/api/update_salesperson', (req, res) => {
 // POST to update salesperson record
 app.post('/api/update_salesperson', (req, res) => {
     const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const sp_id = req.body.sp_id;
     const query = 'UPDATE salesperson SET ? WHERE sp_id = ?';
     let updatedData = {};
@@ -279,7 +266,6 @@ app.post('/api/update_salesperson', (req, res) => {
         console.error('Error updating record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record updated successfully.');
         res.json({result: "updated successfully!"});
     }
     });
@@ -287,8 +273,6 @@ app.post('/api/update_salesperson', (req, res) => {
 
   // POST to update product record
 app.post('/api/update_product', (req, res) => {
-    const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const sp_id = req.body.product_id;
     const query = 'UPDATE product SET ? WHERE product_id = ?';
     let updatedData = {};
@@ -306,7 +290,6 @@ app.post('/api/update_product', (req, res) => {
         console.error('Error updating record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record updated successfully.');
         res.json({result: "updated successfully!"});
     }
     });
@@ -321,7 +304,6 @@ app.post('/api/update_product', (req, res) => {
         console.error('Error creating record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record created successfully.');
         res.json({result: "Created successfully!"});
     }
     });
@@ -330,7 +312,6 @@ app.post('/api/update_product', (req, res) => {
   //POST to get_commisions for quarter
   app.post('/api/get_comm', (req, res) => {
     const receivedData = req.body; // Extract data from the request body
-    console.log(receivedData);
     const start_day = req.body.start_day;
     const end_day = req.body.end_day;
     const query = ` select sp_id, first_name, last_name, num_sales, total_sales, comm, working
@@ -345,7 +326,6 @@ app.post('/api/update_product', (req, res) => {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });
     } else {
-        console.log('Record fetched');
         res.json(results);
     }
     });

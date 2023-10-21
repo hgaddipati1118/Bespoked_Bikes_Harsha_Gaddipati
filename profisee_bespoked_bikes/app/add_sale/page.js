@@ -33,9 +33,7 @@ export default function Home() {
         body: JSON.stringify({"product_id": temp["product_id"],
       "sale_date": temp["sale_date"] }),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         let product_data = await response.json();
         temp["product_price"] = Math.round(product_data[0].sale_price * 100)/100;
         return temp;
@@ -59,9 +57,7 @@ export default function Home() {
         },
         body: JSON.stringify({"product_id": temp["product_id"]}),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         let product_data = await response.json();
         temp["comm_pct"] = product_data[0]["comm_pct"];
         temp["product_name"] = product_data[0]["name"];
@@ -78,7 +74,6 @@ export default function Home() {
 
     // Define a function to handle the POST request
     const get_salesperson = async (temp) => {
-      console.log(temp);
       try {
         const response = await fetch('http://localhost:3000/api/get_salesperson', {
           method: 'POST',
@@ -87,15 +82,12 @@ export default function Home() {
           },
           body: JSON.stringify({"sp_id": temp["sp_id"]}),
         });
-        console.log(response);
         if (response.ok) {
-          console.log('POST request successful');
           let salesperson_data = await response.json();
           temp["sp_first_name"] = salesperson_data[0]["first_name"];
           temp["sp_last_name"] = salesperson_data[0]["last_name"];
           temp["sp_start_date"] = salesperson_data[0]["start_date"].split("T")[0];
           temp["sp_end_date"] = salesperson_data[0]["termination_date"] == null?"N/A":salesperson_data[0]["termination_date"].split("T")[0];
-          console.log(temp);
           return temp;
         } else {
           console.error('POST request failed');
@@ -109,7 +101,6 @@ export default function Home() {
   
       // Define a function to handle the POST request
   const get_customer = async (temp) => {
-    console.log(temp);
     try {
       const response = await fetch('http://localhost:3000/api/get_customer', {
         method: 'POST',
@@ -118,9 +109,7 @@ export default function Home() {
         },
         body: JSON.stringify({"c_id": temp["c_id"]}),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         let customer_data = await response.json();
         temp["c_first_name"] = customer_data[0]["first_name"];
         temp["c_last_name"] = customer_data[0]["last_name"];
@@ -160,7 +149,6 @@ export default function Home() {
           temp_arr[i] = temp_arr[i].product_id;
         }
         setProduct_id_list(temp_arr);
-        console.log(temp_arr);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -183,7 +171,6 @@ export default function Home() {
           temp_arr[i] = temp_arr[i].c_id;
         }
         setC_id_list(temp_arr);
-        console.log(temp_arr);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -206,7 +193,6 @@ export default function Home() {
           temp_arr[i] = temp_arr[i].sp_id;
         }
         setSp_id_list(temp_arr);
-        console.log(temp_arr);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -320,9 +306,7 @@ export default function Home() {
           "sale_date": data["sale_date"]
         }),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         setCreate_ready("Added sale successfully!")
       } else {
         console.error('POST request failed');

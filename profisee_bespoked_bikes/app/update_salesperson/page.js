@@ -18,9 +18,7 @@ export default function Home() {
           },
           body: JSON.stringify({"sp_id": sp_id}),
         });
-        console.log(response);
         if (response.ok) {
-          console.log('POST request successful');
           let sp_data = await response.json();
           sp_data[0].start_date = sp_data[0].start_date.split("T")[0];
           if(sp_data[0].termination_date != null){
@@ -55,7 +53,6 @@ export default function Home() {
           temp_arr[i] = temp_arr[i].sp_id;
         }
         setSp_id_list(temp_arr);
-        console.log(temp_arr);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -63,7 +60,6 @@ export default function Home() {
   }, []);
   
   const handleChange = (e) => {
-    console.log(e)
     const { name, value } = e.target;
     setUpdate_ready("UPDATE");
     if(name != "termination_date" && value.length < 1){
@@ -142,9 +138,7 @@ export default function Home() {
         },
         body: JSON.stringify(temp),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         setUpdate_ready("Update succeeded!");
       } else {
         console.error('POST request failed');

@@ -19,9 +19,7 @@ export default function Home() {
           },
           body: JSON.stringify({"product_id": product_id}),
         });
-        console.log(response);
         if (response.ok) {
-          console.log('POST request successful');
           let product_data = await response.json();
           setData(product_data[0]);
         } else {
@@ -52,7 +50,6 @@ export default function Home() {
           temp_arr[i] = temp_arr[i].product_id;
         }
         setProduct_id_list(temp_arr);
-        console.log(temp_arr);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -121,10 +118,8 @@ export default function Home() {
   };
 
   let checkData = (updated_col) => {
-    console.log("hi", updated_col);
     if(Object.keys(data).some(key => data[key].length == 0 && key != updated_col)){
       setUpdate_ready("No input can have no value");
-      console.log("CHANGE",data);
       return;
     }
     
@@ -214,9 +209,7 @@ export default function Home() {
         },
         body: JSON.stringify(data),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         setUpdate_ready("Successfully updated :)");
       } else {
         console.error('POST request failed');
@@ -227,7 +220,6 @@ export default function Home() {
       console.error('Error:', error);
     }
   }
-console.log(data);
   if (data == null){
     return 
     (

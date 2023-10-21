@@ -16,7 +16,6 @@ export default function Home() {
       })
       .then((result) => {
         let temp = result;
-        console.log(temp);
         for(let i = 0; i < temp.length; i++){
           temp[i].comm_pct = formatPercent(temp[i].comm_pct);
         }

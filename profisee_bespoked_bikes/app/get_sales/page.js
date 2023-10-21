@@ -18,10 +18,8 @@ export default function Home() {
         },
         body: JSON.stringify({"start_date": curr_start, "end_date": curr_end}),
       });
-      console.log(response);
       if (response.ok) {
         let temp = await response.json();
-        console.log(temp);
         temp = temp.sort((a,b) => (a.sale_date > b.sale_date?1:-1));
         for(let i = 0; i < temp.length; i++){
           temp[i].sale_date = convertDate(temp[i].sale_date);

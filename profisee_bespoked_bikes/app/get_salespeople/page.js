@@ -20,7 +20,6 @@ export default function Home() {
         for(let i = 0; i < temp.length; i++){
           let curr = temp[i];
           curr["start_date"] = convertDate(curr["start_date"]);
-          console.log(curr["termination_date"])
           if(curr["termination_date"] == null || curr["termination_date"] == "N/A"){
               curr["termination_date"] = "N/A"; 
           } else{

@@ -18,9 +18,7 @@ export default function Home() {
         body: JSON.stringify({"start_day": start_day,
       "end_day": end_day }),
       });
-      console.log(response);
       if (response.ok) {
-        console.log('POST request successful');
         let temp = await response.json();
         for(let i = 0; i < temp.length; i++){
           if(temp[i].comm == null){
@@ -41,7 +39,6 @@ export default function Home() {
             temp[i].working = "Y";
           }
         }
-        console.log(temp);
         setData(temp);
       } else {
         console.error('POST request failed');
@@ -58,9 +55,7 @@ export default function Home() {
   }, []); 
 
   const handleChange = (e) => {
-    console.log(e)
     const { name, value } = e.target;
-    console.log(name, value);
     let curr_year = year;
     let start = "01-01";
     let end = "03-31";
@@ -87,7 +82,6 @@ export default function Home() {
     }
     get_comm_report(curr_year.toString() + "-" + start, curr_year.toString() + "-" + end)
   };
-console.log(data);
   if (data == null){
     return 
     (
