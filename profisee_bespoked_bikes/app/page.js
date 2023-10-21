@@ -10,8 +10,8 @@ export default function Home() {
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/update_product"> Update Product </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_customers"> Get Customers </Link>
         <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_sales"> Get Sales </Link>
-        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/create_sale"> Get Commisions </Link>
-        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_salespeople"> Create a Sale </Link>
+        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/get_comm_report"> Get Commisions </Link>
+        <Link className = "w-fit p-2 h-fit bg-cyan-200 m-4" href = "/create_sale"> Create a Sale </Link>
       </div>
     </main>
   )
