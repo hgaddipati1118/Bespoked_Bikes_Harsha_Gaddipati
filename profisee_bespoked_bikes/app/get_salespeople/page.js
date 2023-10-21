@@ -35,7 +35,7 @@ export default function Home() {
   }, []);
   let header_names = ["id", "first", "last", "street", "city", "state", "zip", "phone", "start", "end", "manager"];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-black">
+    <main className="flex min-h-screen flex-col items-center bg-black">
       <Table data = {data} header_names = {header_names} title = "Salespeople List" />
     </main>
   )

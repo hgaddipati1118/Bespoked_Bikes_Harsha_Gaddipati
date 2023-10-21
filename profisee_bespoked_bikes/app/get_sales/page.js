@@ -58,20 +58,20 @@ export default function Home() {
   }
   let header_names = ["p_id", "sp_id", "c_id", "price", "comm. (%)", "date"];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-black">
-      <Table data = {data} header_names = {header_names} title = {<div>Quarterly Commisions
+    <main className="flex min-h-screen flex-col items-center bg-black">
+      <Table data = {data} header_names = {header_names} title = {<div>Sales
             <div className = "grid grid-cols-2 text-lg">
-            <div className = "bg-orange-400 w-80 m-4">
-          <label className ="text-white px-2">
+            <div className = "bg-orange-400 w-40 m-4 text-left">
+          <label className ="text-white text-left px-2">
           start date
           </label> <br></br> 
-          <input type="text" className="text-slate-700 px-4 w-80" name="start_date" value={start_date} onChange={handleChange} />
+          <input type="text" className="text-slate-700 px-4 w-40" name="start_date" value={start_date} onChange={handleChange} />
         </div>
-        <div className = "bg-orange-400 w-80 m-4">
-          <label className ="text-white px-2">
+        <div className = "bg-orange-400 w-40 m-4 text-left">
+          <label className ="text-white text-left px-2">
           end date
           </label> <br></br> 
-          <input type="text" className="text-slate-700 px-4 w-80" name="end_date" value={end_date} onChange={handleChange} />
+          <input type="text" className="text-slate-700 px-4 w-40" name="end_date" value={end_date} onChange={handleChange} />
         </div>
           </div>
           </div>} />

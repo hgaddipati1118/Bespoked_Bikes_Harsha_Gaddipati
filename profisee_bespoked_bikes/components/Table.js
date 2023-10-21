@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Table({data, header_names, title}){
     let headers = [];
     if(data.length != 0){
@@ -6,10 +7,14 @@ export default function Table({data, header_names, title}){
     
     return(
         <div>
+        <div className = "text-white text-l font-bold m-4 text-center">
+           <Link href="/"> Bespoked Bikes </Link>
+        </div>
         <div className = "text-white text-6xl font-bold m-4 text-center">
             {title}
 
         </div>
+        <div className = "grid grid-cols-1 justify-items-center">
         <table className = "text-white border-4 border-collapse border-slate-800">
         <thead>
             <tr>
@@ -29,6 +34,7 @@ export default function Table({data, header_names, title}){
             ))}
         </tbody>
         </table>
+        </div>
         </div>
     )
 
