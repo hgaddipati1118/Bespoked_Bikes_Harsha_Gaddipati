@@ -100,6 +100,20 @@ app.get('/api/get_products_ids', (req, res) => {
     });
   });
 
+//Gets all customer ids
+app.get('/api/get_customer_ids', (req, res) => {
+    const sql = 'SELECT c_id FROM customer'; // Query to get products
+    db.query(sql, (err, results) => {
+      if (err) {
+        //Lets me know what went wrong
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+  
+      res.json(results);
+    });
+  });
 //Gets all customers
 app.get('/api/get_customers', (req, res) => {
     const sql = 'SELECT * FROM customer'; // Query to get customers
@@ -290,6 +304,28 @@ app.post('/api/update_product', (req, res) => {
     } else {
         console.log('Record created successfully.');
         res.json({result: "Created successfully!"});
+    }
+    });
+  });
+
+  //POST to get_commisions for quarter
+  app.post('/api/get_comm', (req, res) => {
+    const receivedData = req.body; // Extract data from the request body
+    console.log(receivedData);
+    const start_day = req.body.start_day;
+    const end_day = req.body.end_day;
+    const query = `select salesperson.sp_id, first_name, last_name, comm
+    from salesperson LEFT JOIN (select sum(product_price * comm_pct) as comm, sp_id as salesp_id  
+    from sales where sale_date > ? AND
+    sale_date < ? group by sp_id) as T 
+    on salesperson.sp_id = salesp_id;`;
+    db.query(query, [start_day, end_day], (error, results) => {
+    if (error) {
+        console.error('Error getting record:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    } else {
+        console.log('Record fetched');
+        res.json(results);
     }
     });
   });
