@@ -331,12 +331,14 @@ app.post('/api/update_product', (req, res) => {
     console.log(receivedData);
     const start_day = req.body.start_day;
     const end_day = req.body.end_day;
-    const query = `select salesperson.sp_id, first_name, last_name, comm
-    from salesperson LEFT JOIN (select sum(product_price * comm_pct) as comm, sp_id as salesp_id  
+    const query = ` select sp_id, first_name, last_name, num_sales, total_sales, comm, working
+    from (select sp_id, first_name, last_name,  (start_date <= ? AND (termination_date IS NULL OR termination_date >= ?)) 
+    as "working" from salesperson ) as S LEFT JOIN 
+    (select sum((product_price * comm_pct)) as comm, sum(product_price) as total_sales, sp_id as salesp_id, count(*) as num_sales  
     from sales where sale_date > ? AND
     sale_date < ? group by sp_id) as T 
-    on salesperson.sp_id = salesp_id;`;
-    db.query(query, [start_day, end_day], (error, results) => {
+    on sp_id = salesp_id`;
+    db.query(query, [end_day, start_day, start_day, end_day], (error, results) => {
     if (error) {
         console.error('Error getting record:', error);
         res.status(500).json({ error: 'An error occurred' });

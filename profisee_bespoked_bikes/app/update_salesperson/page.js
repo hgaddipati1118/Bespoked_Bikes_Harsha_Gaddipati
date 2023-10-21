@@ -177,7 +177,7 @@ export default function Home() {
       "manager": "manager"
     }
     return(
-      <UpdateEntity title = "Update Product" update = {update} handleChange={handleChange}
+      <UpdateEntity title = "Update Salesperson" update = {update} handleChange={handleChange}
       data = {data} update_ready = {update_ready} input_names = {input_names}/>
     )
   }
