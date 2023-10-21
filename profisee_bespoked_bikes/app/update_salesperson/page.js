@@ -1,12 +1,10 @@
 "use client";
-import Image from 'next/image';
-import Link from 'next/link';
-import CustomerTable from '@/components/CustomerTable.js';
 import { useEffect, useState } from 'react';
 export default function Home() {
   const [data, setData] = useState(null);
   const [sp_id_list, setSp_id_list] = useState([])
   const [sp_id, setSp_id] = useState(1);
+  const[update_ready, setUpdate_ready] = useState("UPDATE");
   useEffect(() => {
     // Define a function to handle the POST request
     const get_salesperson = async () => {
@@ -66,11 +64,20 @@ export default function Home() {
     console.log(e)
     const { name, value } = e.target;
     if(name == "sp_id"){
-      setSp_id(value);
+      if(sp_id_list.some((item) => item == value)){
+        setSp_id(value);
+      } else {
+        setUpdate_ready("Put a valid sp_id");
+      }
     }
+
+    
     setData({ ...data, [name]: value });
   };
   const update = async () => {
+    if(update_ready != "UPDATE"){
+      return;
+    }
     try {
       const response = await fetch('http://localhost:3000/api/update_salesperson', {
         method: 'POST',
@@ -100,16 +107,21 @@ console.log(data);
     )
   } else{
     return(
-    <main className="flex min-h-screen flex-col items-center justify-between bg-black">
-        <button className = "text-white background-red" onClick={update}> UPDATE </button>
-        {Object.keys(data).map((key) => (
-        <div key={key}>
-          <label className ="text-white">
-          {key}:
-          <input type="text" className="text-slate-700" name={key} value={data[key]} onChange={handleChange} />
-          </label>
+    <main className="py-8 min-h-screen   bg-black">
+      <div className = "text-white text-6xl font-bold m-4 text-center">
+           Update Salesperson 
+        </div>
+       <div className = "grid grid-cols-3 text-xl justify-center h-fit mx-80">
+       {Object.keys(data).map((key) => (
+        <div key={key} className = "bg-orange-400 w-80 m-4">
+          <label className ="text-white px-2">
+          {key}
+          </label> <br></br>
+          <input type="text" className="text-slate-700 px-4 w-80" name={key} value={data[key]} onChange={handleChange} />
         </div>
         ))}
+        <button className = "text-white bg-red-700 m-4" onClick={update}> {update_ready}</button>
+        </div>
         
         
         

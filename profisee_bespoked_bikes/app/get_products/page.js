@@ -1,8 +1,7 @@
 "use client";
-import Image from 'next/image';
-import Link from 'next/link';
-import ProductTable from '@/components/ProductTable.js';
+import Table from '@/components/Table.js';
 import { useEffect, useState } from 'react';
+import formatPercent from '@/helper/formatPercent';
 export default function Home() {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -16,15 +15,21 @@ export default function Home() {
         }
       })
       .then((result) => {
-        setData(result);
+        let temp = result;
+        console.log(temp);
+        for(let i = 0; i < temp.length; i++){
+          temp[i].comm_pct = formatPercent(temp[i].comm_pct);
+        }
+        setData(temp);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
+  let header_names = ["id","name", "manufacturer", "style", "purc.", "sale", "qty", "comm."];
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-black">
-      <ProductTable data = {data} />
+      <Table data = {data} header_names = {header_names} title = "Product List" />
     </main>
   )
 }

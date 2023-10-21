@@ -1,7 +1,7 @@
 "use client";
-import Image from 'next/image';
-import Link from 'next/link';
-import CustomerTable from '@/components/CustomerTable.js';
+import Table from '@/components/Table.js';
+import formatNumber from '@/helper/formatNumber';
+import convertDate from '@/helper/convertSQLDate';
 import { useEffect, useState } from 'react';
 export default function Home() {
   const [data, setData] = useState([]);
@@ -16,15 +16,22 @@ export default function Home() {
         }
       })
       .then((result) => {
-        setData(result);
+        let temp = result;
+        for(let i = 0; i<temp.length; i++){
+          let curr = temp[i];
+          curr.phone_num = formatNumber(curr.phone_num);
+          curr.start_date = convertDate(curr.start_date);
+        }
+        setData(temp);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
+  let header_names = ["id", "first", "last", "street", "city", "state", "zip", "phone", "start"];
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-black">
-      <CustomerTable data = {data} />
+      <Table data = {data} header_names = {header_names} title = "Customer List" />
     </main>
   )
 }

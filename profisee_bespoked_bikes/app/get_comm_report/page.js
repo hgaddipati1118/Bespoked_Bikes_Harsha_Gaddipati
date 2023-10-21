@@ -1,7 +1,7 @@
 "use client";
 import checkDate from '@/helper/checkDate';
 import { useEffect, useState } from 'react';
-import CommTable from '@/components/CommTable';
+import Table from '@/components/Table';
 export default function Home() {
   const [data, setData] = useState([]);
   const [start_day, setStart_day] = useState("");
@@ -64,6 +64,7 @@ console.log(data);
       </main>
     )
   } else{
+    let header_names = ["id", "first", "last", "commission"]
     return(
     <main className="flex min-h-screen flex-col items-center bg-black">
           <label className ="text-white">
@@ -75,7 +76,7 @@ console.log(data);
           End Day:
           <input type="text" className="text-slate-700" name="end_day" value={end_day} onChange={handleChange} />
           </label>
-          {(data.length > 0)?<CommTable data = {data}/>:""}
+          {(data.length > 0)?<Table data = {data} header_names={header_names} title = "Quarterly Commissions"/>:""}
         
         
         
